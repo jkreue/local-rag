@@ -85,6 +85,7 @@ A lot of functionality is missing for a full production ready tool:
 - No success or error message on embedding,
 - No document embedding via the chat,
 - No document removal or db clean. What's in is in (see below how to wipe anyway)
+- n8n not run as a service
 - ...
 
 ## Manual db clean
