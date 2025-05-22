@@ -56,6 +56,14 @@ Now for the databases, ***Redis*** for the conversation memory and ***PostgreSQL
 
 At last, we need ***n8n***:
 
+    npm install n8n -g
+    n8n
+
+Your system is up and running now. Access at http://localhost:5678/  (You might want to bookmark this)
+n8n is running in the terminal window, you will need to restart after closing it or reboot.
+
+## Creating workflows in n8n
+
 
     
 
