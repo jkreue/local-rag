@@ -1,0 +1,207 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "RAG chat ready",
+        "options": {
+          "allowFileUploads": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -382,
+        -60
+      ],
+      "id": "c2e62525-d41d-48f6-bf24-f38335f4453f",
+      "name": "When chat message received",
+      "webhookId": "e02bc7ee-d69a-4285-8b8d-a495ced4d890",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "model": "qwen3:8b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -114,
+        360
+      ],
+      "id": "23b4ce4f-024b-4f8b-ac39-4c1863d9c025",
+      "name": "Ollama Chat Model",
+      "notesInFlow": true,
+      "credentials": {
+        "ollamaApi": {
+          "id": "33XGkIKtykKL6IY8",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -34,
+        160
+      ],
+      "id": "4f1038f5-16ca-4a94-9500-20bec234fe51",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "FP3EYZV5nEUj3Bml",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        86,
+        162.5
+      ],
+      "id": "fd02348c-6ad5-4173-81d7-7d57fec51a97",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.1,
+      "position": [
+        86,
+        362.5
+      ],
+      "id": "7288f17b-9d72-4214-b07a-985287783f70",
+      "name": "Postgres PGVector Store",
+      "credentials": {
+        "postgres": {
+          "id": "dYEWYA9ZlZkJRX0P",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        174,
+        560
+      ],
+      "id": "7c5262cb-7ac9-4d20-88c2-915dd0a2ae5c",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "33XGkIKtykKL6IY8",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant that can fetch information and always responds in natural language. You're data-driven and try to provide data points when possible.\nKeep answers concise."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -162,
+        -60
+      ],
+      "id": "a46bf6c9-4f95-46c6-8777-7216ba16e30d",
+      "name": "AI Agent",
+      "executeOnce": true
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres PGVector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ],
+      "ai_tool": [
+        []
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cc87e8a5123266fafd8fd6afca1596e77d815edb2f0ac3a1f9b1fd373bcaecf8"
+  }
+}
