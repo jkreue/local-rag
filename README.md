@@ -66,13 +66,21 @@ n8n is running in the terminal window, you will need to restart after closing it
 Visit http://localhost:5678/ and create an account. Then login with your new credentials.
 
 ### The chat
-Click the plus button top left or the Create Workflow button top right to create a new workflow. Command+C the content of https://github.com/jkreue/local-rag/blob/main/RAG_chat.json, click into the workflow-canvas of your n8n instance and Command+V. This is your chat workflow, name it as you like, safe and switch the activation button on top to active.
+Click the plus button top left or the Create Workflow button top right to create a new workflow. 
+Command+C the content of https://github.com/jkreue/local-rag/blob/main/RAG_chat.json, click into the workflow-canvas of your n8n instance and Command+V. 
+
+This is your chat workflow, name it as you like, safe and switch the activation button on top to active.
+
 Double-click on the 'When chat message received' node. On the top of the settings window, you will find your chat URL. You might want to bookmark this.
 
 ### The RAG embedding
-Create a folder to store the documents you want to be digested by your RAG. A good path is something like /Users/YOURACCOUNT/Documents/RAG/
+Create a folder to store the documents you want to be digested by your RAG. A good path is something like 
+    
+    /Users/YOURACCOUNT/Documents/RAG/
+    
 Create anoter workflow the same way as before. This time copy paste the content of https://github.com/jkreue/local-rag/blob/main/RAG_embedding.json
 This is your embedding workflow. You will need to configure the folder to watch:
+
 Double-click on the 'Local File Trigger' node and adjust the path in 'Folder to watch'. Get back to canvas, name the workflow as you like, safe and switch the activation button on top to active.
 
 ## Finally
